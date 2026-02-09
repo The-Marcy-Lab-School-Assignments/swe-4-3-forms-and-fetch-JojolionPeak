@@ -9,7 +9,7 @@ async function getRandomPokemon() {
       throw new Error(`Operation failed`);
     }
     const info = await rs.json();
-    const sprite = info.sprites["front_default"];
+    const sprite = info.sprites["front_shiny"];
     const pkName = info.species["name"];
     const type1 = info.types["0"]["type"]["name"];
     let types = [];
@@ -30,4 +30,6 @@ async function getRandomPokemon() {
   }
 }
 
-getRandomPokemon().then((result) => console.log(result));
+// getRandomPokemon().then((result) => console.log(result));
+
+export default getRandomPokemon;
