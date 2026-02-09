@@ -5,7 +5,7 @@ async function getAndRenderPokemon() {
   let val = await getRandomPokemon();
   if (val.error) {
     document.getElementById("success").textContent = "";
-    renderError(val.error);
+    renderError(val);
   } else {
     document.getElementById("error").textContent = "";
     renderPokemon(val.data);

@@ -9,6 +9,24 @@
   <body>
     <p id="error"></p>
     <p id="success"></p>
+    <form action="https://formspree.io/f/mgolvaby" method="POST">
+      <div id="name-div">
+        <label for="name">Name</label>
+        <input type="text" placeholder="Pokemon name here" id="name" name="Poke-name">
+      </div>
+
+      <div id="types-div">
+        <label for="types">Types</label>
+        <input type="text" placeholder="Pokemon types here" id="types" name="Poke-types">
+      </div>
+
+      <div id="fav">
+        <label for="fav-mon">Favorite</label>
+        <input type="checkbox" id="fav-mon" name="isFavorite" >
+      </div>
+
+      <button type="submit">Capture</button>
+    </form>
     <button id="discover-btn">Encounter Pokemon</button>
     <ul id="discovered-list">
       <!--  -->
