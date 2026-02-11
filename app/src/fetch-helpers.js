@@ -29,7 +29,29 @@ async function getRandomPokemon() {
     return { data: null, error: error.message };
   }
 }
-
 // getRandomPokemon().then((result) => console.log(result));
+
+const postDiscoveredPokemon = async (formData) => {
+  try {
+    let formInfo = await fetch("https://formspree.io/f/mgolvaby", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    if (!formInfo.ok) {
+      throw new Error(
+        `Encountered an error. ${error.status} ${error.statusText}`
+      );
+    }
+    const jsonData = await formInfo.json();
+    return { data: jsonData, error: null };
+  } catch (error) {
+    return { data: null, error: error };
+  }
+};
+postDiscoveredPokemon();
 
 export default getRandomPokemon;
