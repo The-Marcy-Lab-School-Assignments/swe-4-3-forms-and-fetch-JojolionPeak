@@ -7,18 +7,18 @@ export function renderPokemon(pokemonObj) {
   const types = document.createElement("p");
   types.textContent = pokemonObj.types;
   img.src = pokemonObj.sprite;
-  li.append(img);
-  li.append(name);
-  li.append(types);
+  li.append(img, name, types);
+  // li.append(name);
+  // li.append(types);
   ul.prepend(li);
 }
 
-export function renderError(data) {
+export function renderError(msg) {
   const p = document.getElementById("error");
-  p.textContent = data.error;
+  p.textContent = msg;
 }
 
-export function renderSuccess(data) {
+export function renderSuccess(msg) {
   const p = document.getElementById("success");
-  p.textContent = `${data.name} was discovered!`;
+  p.textContent = msg;
 }

@@ -5,7 +5,7 @@
 The following code logs `undefined` in the second `.then()`. Identify the bug and fix it.
 
 ```js
-fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
   .then((response) => {
     if (!response.ok) throw Error(`Fetch failed.`);
     const readingPromise = response.json();
@@ -16,15 +16,13 @@ fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
   .catch((error) => console.error(error.message));
 ```
 
-**Your Answer:**
-
+The following code logs `undefined` because nothing is returned from the first `.then` statement, so the second `.then` statement is reading data as a variable that hasn't been created, and logs undefined.
 
 ## Question 2: Development Servers and CORS
 
 A student opens their `index.html` file directly in the browser (using the `file://` protocol). Their `<script type="module">` tag and `fetch()` call both fail. Explain why, and what they should do instead.
 
-**Your Answer:**
-
+Their code fails because they should be using _vite_, or some way to use the `https:// protocol`. In order to use the `fetch()` call `<script type='module'><script>` they have to be using the **https:// protocol** and if they're using _LiveServer_ with the `file:// protocol`, they'll encounter an error.
 
 ## Question 3: The `fetch` Response Object
 
@@ -35,9 +33,7 @@ const response = await fetch(url);
 const data = await response.json();
 ```
 
-**Your Answer:**
-
-
+We check `response.ok` first, to check for things like _if there actually is data being returned_, and if it's the data that we would want. If we didn't we might get `null` or `undefined`.
 
 ## Question 4: Async/Await Conversion
 
@@ -45,7 +41,7 @@ Rewrite the following `.then()`-based code using `async`/`await` with `try`/`cat
 
 ```js
 const getJoke = () => {
-  return fetch('https://v2.jokeapi.dev/joke/Programming?type=twopart')
+  return fetch("https://v2.jokeapi.dev/joke/Programming?type=twopart")
     .then((response) => {
       if (!response.ok) throw Error(`Fetch failed. ${response.status}`);
       return response.json();
@@ -59,26 +55,36 @@ const getJoke = () => {
 };
 ```
 
-**Your Answer:**
-
-
+```js
+const getJoke = (async = () => {
+  return fetch("https://v2.jokeapi.dev/joke/Programming?type=twopart")
+    .then((response) => {
+      if (!response.ok) throw Error(`Fetch failed. ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      return { data, error: null };
+    })
+    .catch((error) => {
+      return { data: null, error };
+    });
+});
+```
 
 ## Question 5: `event.preventDefault()` and Form Handling
 
 A student writes a form handler but the data never displays. Their code:
 
 ```js
-form.addEventListener('submit', (event) => {
+form.addEventListener("submit", (event) => {
   const name = form.elements.name.value;
-  document.querySelector('#output').textContent = name;
+  document.querySelector("#output").textContent = name;
 });
 ```
 
 What is wrong? What happens when they click submit, and how do they fix it?
 
-**Your Answer:**
-
-
+The student doesn't call `event.preventDefault()`, so the user will be sent to the submit page. In order to solve this, they should call **event.preventDefault()** in the _very beginning of their code_.
 
 ## Question 6: Putting It All Together
 
@@ -95,5 +101,4 @@ The steps below describe how to build a form that fetches Pokemon data from `htt
 - I. Reset the form with `form.reset()`
 - J. Create the HTML form with a name input and output elements for displaying results
 
-**Your Answer:**
-
+J E B G H C A D I F
