@@ -8,7 +8,7 @@ The following code logs `undefined` in the second `.then()`. Identify the bug an
 fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
   .then((response) => {
     if (!response.ok) throw Error(`Fetch failed.`);
-    const readingPromise = response.json();
+    return readingPromise = response.json();
   })
   .then((data) => {
     console.log(data); // undefined!
@@ -16,13 +16,13 @@ fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
   .catch((error) => console.error(error.message));
 ```
 
-The following code logs `undefined` because nothing is returned from the first `.then` statement, so the second `.then` statement is reading data as a variable that hasn't been created, and logs undefined.
+The following code logs `undefined` because nothing is returned from the first `.then` statement, so the second `.then` statement is reading data as a variable that hasn't been created, and logs undefined. The programmer should return the data in a parsed format by returning readingPromise, which parses the incoming response instead of merely declaring it.
 
 ## Question 2: Development Servers and CORS
 
 A student opens their `index.html` file directly in the browser (using the `file://` protocol). Their `<script type="module">` tag and `fetch()` call both fail. Explain why, and what they should do instead.
 
-Their code fails because they should be using _vite_, or some way to use the `https:// protocol`. In order to use the `fetch()` call `<script type='module'><script>` they have to be using the **https:// protocol** and if they're using _LiveServer_ with the `file:// protocol`, they'll encounter an error.
+Their code fails because they should be using _vite_, or some way to use the `https:// protocol`. In order to use the `fetch()` call `<script type='module'><script>` they have to be using the **https:// protocol** and if they're using _LiveServer_ with the `file:// protocol`, they'll encounter an error because CORS doesn't allow for the fetching of files that only live on a personal device. In other words, CORS will block requests that follow the `file:// protocol`.
 
 ## Question 3: The `fetch` Response Object
 
@@ -33,7 +33,7 @@ const response = await fetch(url);
 const data = await response.json();
 ```
 
-We check `response.ok` first, to check for things like _if there actually is data being returned_, and if it's the data that we would want. If we didn't we might get `null` or `undefined`.
+We check `response.ok` first, to check for things like _the status codes of the data being returned_, and if it's the server might've encountered an error in delivering our data to us. If we didn't we might get `null` or `undefined` or even move forward in our code using an error message from the failed data retrieval instead of the response we actually want.
 
 ## Question 4: Async/Await Conversion
 
@@ -56,19 +56,21 @@ const getJoke = () => {
 ```
 
 ```js
-const getJoke = (async = () => {
-  return fetch("https://v2.jokeapi.dev/joke/Programming?type=twopart")
-    .then((response) => {
-      if (!response.ok) throw Error(`Fetch failed. ${response.status}`);
-      return response.json();
-    })
-    .then((data) => {
-      return { data, error: null };
-    })
-    .catch((error) => {
-      return { data: null, error };
-    });
-});
+const getJoke = async () => {
+  try{
+    const response = await fetch("https://v2.jokeapi.dev/joke/Programming?type=twopart");
+
+    if (!response.ok) => {
+      throw Error(`Fetch failed. ${response.status}`);
+    };
+
+    const data = await response.json();
+    return { data, error: null };
+
+    } catch (error) {
+    return {data: null,error};
+  };
+};
 ```
 
 ## Question 5: `event.preventDefault()` and Form Handling
